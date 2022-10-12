@@ -33,11 +33,12 @@ object Main {
     val filterFile: String => String = _.split("/").takeRight(1)(0)
     val filterFileUDF = udf(filterFile);
     val DataFrame = spark.read.format(path).text(path).withColumn("Filename", (filterFileUDF(input_file_name())
-      )).withColumn("Value", explode(functions.split(column("value"), " "))).orderBy(column("Filename")).withColumn("Filename", collect_list("Filename").over(Window.partitionBy("Value")))
-    //df.orderBy(col("Value"),col("Filename")).show(false)
+      )).withColumn("Value", explode(functions.split(column("value"), " "))).orderBy(column("Filename"))
+      .withColumn("Filename", collect_list("Filename").over(Window.partitionBy("Value")))
     println("the value and where are in fileName")
     DataFrame.select("Value","Filename").show()
     DataFrame.select("Value","Filename").orderBy("Value").collect().take(20).foreach(println)
+    println("the value and where are in fileName and Count of the word")
 
     DataFrame.groupBy("Value","Filename").agg(count("Value").as("Count")).orderBy("Value")
       .show()
