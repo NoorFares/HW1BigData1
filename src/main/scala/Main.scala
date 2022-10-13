@@ -42,6 +42,8 @@ object Main {
 
     DataFrame.groupBy("Value","Filename").agg(count("Value").as("Count")).orderBy("Value")
       .show()
-
-  }
-}
+    println("the value and doc  for “value”, then the system should print: doc3, doc6, doc120, doc133.")
+val d1=DataFrame.filter(DataFrame("Value")==="fares").show()
+val d2=DataFrame.filter(DataFrame("Value")==="kalboneh").show()
+    val d3=DataFrame.filter(DataFrame("Value")==="noor").show()
+  }}
